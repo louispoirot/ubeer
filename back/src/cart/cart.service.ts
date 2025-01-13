@@ -3,38 +3,38 @@ import { Prisma } from '@prisma/client';
 import { DatabaseService } from 'src/database/database.service';
 
 @Injectable()
-export class UsersService {
+export class CartService {
   constructor(private readonly databaseService: DatabaseService) {}
 
-  create(createUserDto: Prisma.usersCreateInput) {
-    return this.databaseService.users.create({
-      data: createUserDto
+  create(createCartDto: Prisma.cartCreateInput) {
+    return this.databaseService.cart.create({
+      data: createCartDto
     })
   }
 
   findAll() {
-    return this.databaseService.users.findMany({})
+    return this.databaseService.cart.findMany({})
   }
 
   findOne(id: number) {
-    return this.databaseService.users.findUnique({
+    return this.databaseService.cart.findUnique({
       where: {
         id,
       }
     })
   }
 
-  update(id: number, updateUserDto: Prisma.usersUpdateInput) {
-    return this.databaseService.users.update({
+  update(id: number, updateCartDto: Prisma.cartUpdateInput) {
+    return this.databaseService.cart.update({
       where: {
         id,
       },
-      data: updateUserDto
+      data: updateCartDto
     })
   }
 
   remove(id: number) {
-    return this.databaseService.users.delete({
+    return this.databaseService.cart.delete({
       where: {
         id,
       }

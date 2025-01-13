@@ -1,25 +1,33 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { BeersService } from './beers.service';
+import { Prisma } from '@prisma/client';
 
 @Controller('beers')
 export class BeersController {
-    /*
-    POST /beers
-    PATCH /beers/:beer_id
-    DELETE /beers/:beer_id
-    */
+  constructor(private readonly beersService: BeersService) {}
 
-    @Get() // GET /beers
-    findAll() {
-        return []
-    }
+  @Post()
+  create(@Body() createBeerDto: Prisma.beersCreateInput) {
+    return this.beersService.create(createBeerDto);
+  }
 
-    @Get(':id') // GET /beers/:id
-    findOne(@Param('id') id: string) {
-        return { id }
-    }
+  @Get()
+  findAll() {
+    return this.beersService.findAll();
+  }
 
-    @Post() // POST /beers
-    create(@Body() beer: {}) {
-        return beer
-    }
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.beersService.findOne(+id);
+  }
+
+  @Patch(':id')
+  update(@Param('id') id: string, @Body() updateBeerDto: Prisma.beersUpdateInput) {
+    return this.beersService.update(+id, updateBeerDto);
+  }
+
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.beersService.remove(+id);
+  }
 }
