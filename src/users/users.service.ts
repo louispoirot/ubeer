@@ -12,7 +12,12 @@ export class UsersService {
     })
   }
 
-  findAll() {
+  findAll(role?: 'USER' | 'ADMIN') {
+    if (role) return this.databaseService.users.findMany({
+      where: {
+        role,
+      }
+    })
     return this.databaseService.users.findMany({})
   }
 
