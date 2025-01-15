@@ -8,6 +8,9 @@ export class BeersController {
 
   @Post()
   create(@Body() createBeerDto: Prisma.beersCreateInput) {
+    if (!createBeerDto.imageUrl){
+      throw new Error('ImageUrl is required');
+    }
     return this.beersService.create(createBeerDto);
   }
 
