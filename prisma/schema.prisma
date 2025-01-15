@@ -8,17 +8,14 @@ generator client {
   provider = "prisma-client-js"
 }
 
-/*
- * datasource db {
- * provider  = "mysql"
- * url  	    = env("DATABASE_URL")   // Pour la base de donnée MySQL locale
- * }
- */
-
 datasource db {
+  //provider  = "mysql"
+  //url  	    = env("DATABASE_URL")   // Pour la base de donnée MySQL locale
+
   provider = "postgresql"            // Pour la base de donnée ubeer sur Neon
   url      = env("DATABASE_URL")  
 }
+
 
 model users {
   id       Int    @id @default(autoincrement())
@@ -40,6 +37,7 @@ model beers {
   beer       String
   price      Float
   brewery_id Int
+  imageUrl   String?
   brewery    brewery @relation(fields: [brewery_id], references: [id])
 
   cart cart[]
