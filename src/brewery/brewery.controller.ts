@@ -1,13 +1,15 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { BreweryService } from './brewery.service';
 import { Prisma } from '@prisma/client';
+import { CreateBreweryDto } from './dto/create-brewery.dto';
+import { UpdateBreweryDto } from './dto/update-brewery.dto';
 
 @Controller('brewery')
 export class BreweryController {
-  constructor(private readonly breweryService: BreweryService) {}
+  constructor(private readonly breweryService: BreweryService) { }
 
   @Post()
-  create(@Body() createBreweryDto: Prisma.breweryCreateInput) {
+  create(@Body() createBreweryDto: CreateBreweryDto) {
     return this.breweryService.create(createBreweryDto);
   }
 
@@ -22,7 +24,7 @@ export class BreweryController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateBreweryDto: Prisma.breweryUpdateInput) {
+  update(@Param('id') id: string, @Body() updateBreweryDto: UpdateBreweryDto) {
     return this.breweryService.update(+id, updateBreweryDto);
   }
 
