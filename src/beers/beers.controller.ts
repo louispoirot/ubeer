@@ -1,16 +1,15 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe } from '@nestjs/common';
 import { BeersService } from './beers.service';
 import { Prisma } from '@prisma/client';
+import { CreateBeerDto } from './dto/create-beer.dto';
+import { UpdateBeerDto } from './dto/update-beer.dto';
 
 @Controller('beers')
 export class BeersController {
-  constructor(private readonly beersService: BeersService) {}
+  constructor(private readonly beersService: BeersService) { }
 
   @Post()
-  create(@Body() createBeerDto: Prisma.beersCreateInput) {
-    if (!createBeerDto.imageUrl){
-      throw new Error('ImageUrl is required');
-    }
+  create(@Body() createBeerDto: CreateBeerDto) {
     return this.beersService.create(createBeerDto);
   }
 
@@ -20,17 +19,17 @@ export class BeersController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.beersService.findOne(+id);
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.beersService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateBeerDto: Prisma.beersUpdateInput) {
-    return this.beersService.update(+id, updateBeerDto);
+  update(@Param('id', ParseIntPipe) id: number, @Body() updateBeerDto: UpdateBeerDto) {
+    return this.beersService.update(id, updateBeerDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.beersService.remove(+id);
+  remove(@Param('id', ParseIntPipe) id: number) {
+    return this.beersService.remove(id);
   }
 }

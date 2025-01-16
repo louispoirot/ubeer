@@ -1,12 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { DatabaseService } from 'src/database/database.service';
+import { CreateBeerDto } from './dto/create-beer.dto';
+import { UpdateBeerDto } from './dto/update-beer.dto';
 
 @Injectable()
 export class BeersService {
-  constructor(private readonly databaseService: DatabaseService) {}
-  
-  async create(createBeerDto: Prisma.beersCreateInput) {
+  constructor(private readonly databaseService: DatabaseService) { }
+
+  async create(createBeerDto: CreateBeerDto) {
     return this.databaseService.beers.create({
       data: createBeerDto
     })
@@ -24,7 +26,7 @@ export class BeersService {
     });
   }
 
-  async update(id: number, updateBeerDto: Prisma.beersUpdateInput) {
+  async update(id: number, updateBeerDto: UpdateBeerDto) {
     return this.databaseService.beers.update({
       where: {
         id,

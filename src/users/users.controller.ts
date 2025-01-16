@@ -1,33 +1,45 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { Prisma } from '@prisma/client';
+import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
+import { ApiBody, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('users')
 @Controller('users')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(private readonly usersService: UsersService) { }
 
   @Post()
-  create(@Body() createUserDto: Prisma.usersCreateInput) {
-    return this.usersService.create(createUserDto);
+  @ApiBody({ type: CreateUserDto})
+  create(@Body() createUserDto: CreateUserDto) {
+    const user = this.usersService.create(createUserDto);
+    return {
+      message: 'User created sucessfully',
+      user,
+    };
   }
-
   @Get()
   findAll() {
     return this.usersService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.usersService.findOne(+id);
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.usersService.findOne(id);
   }
 
+  @ApiBody({ type: UpdateUserDto})
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: Prisma.usersUpdateInput) {
-    return this.usersService.update(+id, updateUserDto);
+  update(@Param('id', ParseIntPipe) id: number, @Body() updateUserDto: UpdateUserDto) {
+    const user = this.usersService.update(id, updateUserDto);
+    return {
+      message: "User updated sucessfully",
+      user,
+    };
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.usersService.remove(+id);
+  remove(@Param('id', ParseIntPipe) id: number) {
+    return this.usersService.remove(id);
   }
 }
