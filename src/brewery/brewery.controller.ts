@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe } from '@nestjs/common';
 import { BreweryService } from './brewery.service';
 import { Prisma } from '@prisma/client';
 import { CreateBreweryDto } from './dto/create-brewery.dto';
@@ -19,17 +19,17 @@ export class BreweryController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.breweryService.findOne(+id);
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.breweryService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateBreweryDto: UpdateBreweryDto) {
-    return this.breweryService.update(+id, updateBreweryDto);
+  update(@Param('id', ParseIntPipe) id: number, @Body() updateBreweryDto: UpdateBreweryDto) {
+    return this.breweryService.update(id, updateBreweryDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.breweryService.remove(+id);
+  remove(@Param('id', ParseIntPipe) id: number) {
+    return this.breweryService.remove(id);
   }
 }

@@ -12,10 +12,7 @@ async function bootstrap() {
     .setVersion('1.0')
     .build();
 
-  // Créer le document Swagger avec la configuration
   const document = SwaggerModule.createDocument(app, config);
-
-  // Activer Swagger UI à l'URL /api-docs
   SwaggerModule.setup('api-docs', app, document);
 
   app.useGlobalPipes(new ValidationPipe());
