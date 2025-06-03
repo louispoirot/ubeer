@@ -4,6 +4,7 @@ import { BeersModule } from './beers/beers.module';
 import { BreweryModule } from './brewery/brewery.module';
 import { UsersModule } from './users/users.module';
 import { CartModule } from './cart/cart.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
@@ -11,7 +12,10 @@ import { CartModule } from './cart/cart.module';
     UsersModule,
     DatabaseModule,
     BreweryModule,
-    CartModule
+    CartModule,
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
   ],
   controllers: [],
   providers: [],
