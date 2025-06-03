@@ -41,9 +41,15 @@ $ npm run test:cov
 ##  Technologies utulisées
 
 **NestJS** - Framework Node.js pour l'API REST
+
 **Prisma** - ORM
+
 **PostgreSQL** - Base de données principale
+
 **Swagger** - Documentation de l'API
+
 **Neon** - Service de deploiement de la base de données
+
 **Render** - Service de deploiement de l'application NestJS
+
 **Auth0** - Authentification (en cours)
