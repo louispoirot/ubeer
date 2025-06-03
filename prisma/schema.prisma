@@ -12,10 +12,9 @@ datasource db {
   //provider  = "mysql"
   //url  	    = env("DATABASE_URL")   // Pour la base de donnée MySQL locale
 
-  provider = "postgresql"            // Pour la base de donnée ubeer sur Neon
-  url      = env("DATABASE_URL")  
+  provider = "postgresql" // Pour la base de donnée ubeer sur Neon
+  url      = env("DATABASE_URL")
 }
-
 
 model users {
   id       Int    @id @default(autoincrement())
@@ -24,7 +23,8 @@ model users {
   email    String @unique
   role     Role
 
-  cart cart[]
+  cart   cart[]
+  orders orders[]
 }
 
 enum Role {
@@ -41,6 +41,8 @@ model beers {
   brewery    brewery @relation(fields: [brewery_id], references: [id])
 
   cart cart[]
+
+  items order_item[]
 }
 
 model brewery {
@@ -57,4 +59,42 @@ model cart {
   quantity Int
   user     users @relation(fields: [user_id], references: [id])
   beer     beers @relation(fields: [beer_id], references: [id])
+}
+
+model orders {
+  id         Int          @id @default(autoincrement())
+  user_id    Int
+  status     OrderStatus  @default(PENDING)
+  totalPrice Float
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+  user       users        @relation(fields: [user_id], references: [id])
+  items      order_item[]
+  payment    payment?
+}
+
+enum OrderStatus {
+  PENDING
+  PAID
+  FAILED
+  CANCELLED
+}
+
+model order_item {
+  id       Int    @id @default(autoincrement())
+  order_id Int
+  beer_id  Int
+  quantity Int
+  beer     beers  @relation(fields: [beer_id], references: [id])
+  order    orders @relation(fields: [order_id], references: [id])
+}
+
+model payment {
+  id        Int      @id @default(autoincrement())
+  order_id  Int      @unique
+  currency  String   @default("eur")
+  status    String   @default("unpaid")
+  stripe_id String?
+  createdAt DateTime @default(now())
+  order     orders   @relation(fields: [order_id], references: [id])
 }

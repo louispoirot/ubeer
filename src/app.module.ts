@@ -5,6 +5,8 @@ import { BreweryModule } from './brewery/brewery.module';
 import { UsersModule } from './users/users.module';
 import { CartModule } from './cart/cart.module';
 import { ConfigModule } from '@nestjs/config';
+import { StripeService } from './stripe/stripe.service';
+import { StripeModule } from './stripe/stripe.module';
 
 @Module({
   imports: [
@@ -16,8 +18,9 @@ import { ConfigModule } from '@nestjs/config';
     ConfigModule.forRoot({
       isGlobal: true,
     }),
+    StripeModule,
   ],
   controllers: [],
-  providers: [],
+  providers: [StripeService],
 })
 export class AppModule { }
