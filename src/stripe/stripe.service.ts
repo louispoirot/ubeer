@@ -12,6 +12,9 @@ export class StripeService {
     }
 
     async createCheckoutSession(items: { name: string; amount: number; quantity: number }[], orderId: number) {
+        const successUrl = `${this.configService.get('FRONTEND_SUCCESS_URL')}?orderId=${orderId}`;
+        const cancelUrl = `${this.configService.get('FRONTEND_CANCEL_URL')}?orderId=${orderId}`;
+
         const session = await this.stripe.checkout.sessions.create({
             payment_method_types: ['card'],
             mode: 'payment',
@@ -25,8 +28,8 @@ export class StripeService {
                 },
                 quantity: item.quantity,
             })),
-            success_url: `${this.configService.get('FRONTEND_URL')}/payment-success?orderId=${orderId}`,
-            cancel_url: `${this.configService.get('FRONTEND_URL')}/payment-cancelled?orderId=${orderId}`,
+            success_url: successUrl,
+            cancel_url: cancelUrl,
             metadata: {
                 orderId: orderId.toString(),
             },
