@@ -15,6 +15,7 @@ import { StripeModule } from './stripe/stripe.module';
     DatabaseModule,
     BreweryModule,
     CartModule,
+    StripeModule,
     ConfigModule.forRoot({
       isGlobal: true,
     }),

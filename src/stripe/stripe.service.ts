@@ -8,7 +8,6 @@ export class StripeService {
 
     constructor(private configService: ConfigService) {
         this.stripe = new Stripe(configService.get('STRIPE_SECRET_KEY'), {
-            apiVersion: '2025-05-28.basil',
         });
     }
 
@@ -26,8 +25,8 @@ export class StripeService {
                 },
                 quantity: item.quantity,
             })),
-            success_url: `http://localhost:3000/payment-success?orderId=${orderId}`,
-            cancel_url: `http://localhost:3000/payment-cancelled?orderId=${orderId}`,
+            success_url: `${this.configService.get('FRONTEND_URL')}/payment-success?orderId=${orderId}`,
+            cancel_url: `${this.configService.get('FRONTEND_URL')}/payment-cancelled?orderId=${orderId}`,
             metadata: {
                 orderId: orderId.toString(),
             },
