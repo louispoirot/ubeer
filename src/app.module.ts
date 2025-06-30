@@ -7,6 +7,7 @@ import { CartModule } from './cart/cart.module';
 import { ConfigModule } from '@nestjs/config';
 import { StripeService } from './stripe/stripe.service';
 import { StripeModule } from './stripe/stripe.module';
+import { RedisModule } from './redis/redis.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { StripeModule } from './stripe/stripe.module';
       isGlobal: true,
     }),
     StripeModule,
+    RedisModule,
   ],
   controllers: [],
   providers: [StripeService],
