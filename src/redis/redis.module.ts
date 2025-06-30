@@ -1,7 +1,8 @@
 import { Module } from '@nestjs/common';
-import { Redis } from './redis';
+import { RedisService } from './redis.service';
 
 @Module({
-  providers: [Redis]
+  providers: [RedisService],
+  exports: [RedisService],
 })
 export class RedisModule { }
